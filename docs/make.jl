@@ -12,5 +12,5 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/lanl-ansi/GraphicalModelLearning.jl.git",
+    repo = "https://github.com/dgoekmen/GraphicalModelLearning.jl.git",
 )
