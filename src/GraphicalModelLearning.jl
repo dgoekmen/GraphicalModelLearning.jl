@@ -65,6 +65,10 @@ end
 NLP() = NLP(with_optimizer(Ipopt.Optimizer, print_level=0))
 
 
+"""
+Modified version of the learn function: takes frequencies as a separate 1-d array from the 2-d sample array.
+"""
+
 # default settings
 learn(samples::Array{Int8,2}, freqs::Array{Int,1}) = learn(samples, freqs, RISE(), NLP())
 learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::S) where S <: GMLFormulation = learn(samples, freqs, formulation, NLP())
@@ -332,7 +336,10 @@ function learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::RPLE, m
     return reconstruction
 end
 
-##################
+########################################################################################################
+"""
+Original version of the learn function: takes frequencies as the first column of the sample array.
+"""
 
 # default settings
 learn(samples::Array{T,2}) where T <: Real = learn(samples, RISE(), NLP())
@@ -603,8 +610,6 @@ function learn(samples::Array{T,2}, formulation::RPLE, method::NLP) where T <: R
 
     return reconstruction
 end
-
-
 
 
 end
