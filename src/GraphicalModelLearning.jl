@@ -66,18 +66,18 @@ NLP() = NLP(with_optimizer(Ipopt.Optimizer, print_level=0))
 
 
 # default settings
-learn(samples::Array{T,2}, freqs::Array{Int,1}) where T <: Real = learn(samples, freqs, RISE(), NLP())
-learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::S) where {T <: Real, S <: GMLFormulation} = learn(samples, freqs, formulation, NLP())
+learn(samples::Array{Int8,2}, freqs::Array{Int,1}) = learn(samples, freqs, RISE(), NLP())
+learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::S) where S <: GMLFormulation = learn(samples, freqs, formulation, NLP())
 
 
-function data_info(samples::Array{T,2}, freqs::Array{Int,1}) where T <: Real
+function data_info(samples::Array{Int8,2}, freqs::Array{Int,1})
     (num_conf, num_row) = size(samples)
     num_spins = num_row
     num_samples = sum(freqs[1:num_conf])
     return num_conf, num_spins, num_samples
 end
 
-function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::multiRISE, method::NLP) where T <: Real
+function learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::multiRISE, method::NLP)
     num_conf, num_spins, num_samples = data_info(samples, freqs)
 
     lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
@@ -148,7 +148,7 @@ function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::multiRISE,
     return FactorGraph(inter_order, num_spins, :spin, reconstruction)
 end
 
-function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::RISE, method::NLP) where T <: Real
+function learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::RISE, method::NLP)
     num_conf, num_spins, num_samples = data_info(samples, freqs)
 
     lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
@@ -204,7 +204,7 @@ function grad_risea_obj(g, var, stat, weight)
     end
 end
 
-function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::RISEA, method::NLP) where T <: Real
+function learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::RISEA, method::NLP)
     num_conf, num_spins, num_samples = data_info(samples, freqs)
 
     lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
@@ -257,7 +257,7 @@ function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::RISEA, met
 end
 
 
-function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::logRISE, method::NLP) where T <: Real
+function learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::logRISE, method::NLP)
     num_conf, num_spins, num_samples = data_info(samples, freqs)
 
     lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
@@ -295,7 +295,7 @@ function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::logRISE, m
 end
 
 
-function learn(samples::Array{T,2}, freqs::Array{Int,1}, formulation::RPLE, method::NLP) where T <: Real
+function learn(samples::Array{Int8,2}, freqs::Array{Int,1}, formulation::RPLE, method::NLP)
     num_conf, num_spins, num_samples = data_info(samples, freqs)
 
     lambda = formulation.regularizer*sqrt(log((num_spins^2)/0.05)/num_samples)
